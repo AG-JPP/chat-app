@@ -3,20 +3,38 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6 offset-md-3">
-			<Chat />
+          <h1>Welcome to this web chat app</h1>
         </div>
+        <div class="col-md-6 offset-md-3">
+          
+            <router-link to="/login" class="me-3">
+              <button type="button" class="btn btn-primary">
+                Se connecter
+              </button>
+            </router-link>
+          
+            <router-link to="/singin">
+              <button type="button" class="btn btn-primary">
+                S'inscrire
+              </button>
+            </router-link>
+        </div>
+        <router-view></router-view>
       </div>
     </div>
   </div>
 </template>
 
+
 <script>
-import Chat from './components/Chat.vue'
 
 export default {
   name: 'App',
   components: {
-    Chat
+    
+  }, 
+  mounted() {
+    
   }
 }
 </script>

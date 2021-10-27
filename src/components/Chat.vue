@@ -18,16 +18,6 @@
             </div>
         </div>
 
-        <div class="card-footer" v-if="this.user.id == 0">
-            <form @submit.prevent="login">
-                <div class="gorm-group pb-3">
-                    <label for="email">Adresse email</label>
-                    <input type="email" v-model="user.email" class="form-control">
-                </div>
-                <button type="submit" class="btn btn-success">Log in</button>
-            </form>
-        </div>
-
         <div class="card-footer" v-if="this.user.id != 0">
             <form @submit.prevent="sendMessage">
                 <div class="gorm-group pb-3">
@@ -44,17 +34,9 @@
     import io from 'socket.io-client';
 
     export default {
+        props: ['user'],
         data() {
             return {
-                user: {
-                    id: 0,
-                    username: '',
-                    message: '',
-                    email: '',
-                    lastname: '',
-                    firstname: '',
-                    messages: []
-                },
                 messages: [],
                 socket : io('localhost:3001')
             }
@@ -68,12 +50,6 @@
                     message: this.user.message
                 });
                 this.message = ''
-            },
-            login(e) {
-                e.preventDefault();
-                this.socket.emit('login', {
-                    email: this.user.email
-                })
             },
             retrieveUser(userData) {
                 this.user.id = userData.id;

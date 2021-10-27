@@ -52,8 +52,7 @@ io.on('connection', function(socket) {
     });
 
     let me = false;
-
-    // @TODO - passer sur un ORM 
+ 
     socket.on('login', function (data) {
         console.log(data)
         
