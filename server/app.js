@@ -2,12 +2,6 @@ const express = require('express');
 
 const app = express();
 const sql = require('mysql');
-const cors = require('cors');
-
-/* app.use(cors({
-    methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH'],
-    origin: '*'
-})) */
 
 app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -89,6 +83,26 @@ io.on('connection', function(socket) {
             } else { 
                 console.log(`Aucun utilisateur trouvé pour l'adresse ${email}`)
                 socket.emit('error', 'Aucun utilisateur ne correspond')
+            }
+        })
+    })
+
+    socket.on('signin', function (data) {
+        connection.query('INSERT INTO users (username, email, lastname, firstname, creationDate) VALUES (?, ?, ?, ?, ?)', [data.username, data.email, data.lastname, data.firstname, Date.now() / 1000], function (err, rows, fields) {
+            if (err) {
+                console.log(err)
+                socket.emit('error', err.code)
+            } else {
+                const userId = rows.insertId;
+                newUser = {
+                    id: userId,
+                    email: data.email,
+                    lastname: data.lastname,
+                    firstname: data.firstname,
+                    username: data.username,
+                    creationDate: Date.now() / 1000
+                }
+                socket.emit('newUser', newUser)
             }
         })
     })

@@ -2,12 +2,13 @@ export default class User {
 
     
 
-    constructor(id, email, firstname, lastname, username) {
+    constructor(id, email, firstname, lastname, username, creationDate) {
         this.id = id;
         this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;
         this.username = username;
+        this.creationDate = creationDate;
     }
 
     getId() {
@@ -44,5 +45,13 @@ export default class User {
 
     setUsername(username) {
         this.username = username
+    }
+
+    getCreationDate() {
+        return this.creationDate;
+    }
+
+    setCreationDate(date) {
+        this.creationDate = date
     }
 }
