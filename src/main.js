@@ -9,6 +9,7 @@ import Chat from './components/Chat.vue'
 import 'bootstrap'
 
 const routes = [
+  { name: 'index', path: '/'},
   { name: 'login', path: '/login', component: Login },
   { name: 'signin', path: '/singin', component: SignIn }, 
   { name: 'chat', path: '/chat', component: Chat, props: true }

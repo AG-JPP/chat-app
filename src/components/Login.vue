@@ -23,6 +23,8 @@
 
 <script>
     import io from 'socket.io-client';
+    import User from '../classes/User.class';
+
     export default {
         data() {
             return {
@@ -40,11 +42,18 @@
         },
         mounted() {
             this.socket.on('newusr', (data) => {
+                let connectedUser = new User(
+                    data.id,
+                    data.email,
+                    data.firstname,
+                    data.lastname,
+                    data.username
+                )
                 console.log(data)
                 this.$router.push({
                     name: 'chat',
                     params: {
-                        user: data
+                        user: connectedUser
                     }
                 })
             })
