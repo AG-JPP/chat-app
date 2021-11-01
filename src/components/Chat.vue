@@ -14,7 +14,7 @@
                     </div>
                     <div v-else class="message" v-for="(msg, index) in  this.messages" :key="index">
                         <p class="text-start">
-                            <span  class="fw-bold fs-5">{{connectedUser.getUsername()}} </span> <span class="fs-6 fst-italic">{{msg.formateDate()}}</span>
+                            <span  class="fw-bold fs-5">{{msg.getUser().getUsername()}} </span> <span class="fs-6 fst-italic">{{msg.formateDate()}}</span>
                         </p>
                         <p class="text-start">
                             {{msg.getMessage()}} 
@@ -40,6 +40,7 @@
     import io from 'socket.io-client';
     import axios from 'axios';
     import Message from '../classes/Message.class';
+    import User from '../classes/User.class';
 
     export default {
         props: ['user'],
@@ -63,11 +64,15 @@
             },
             fetchAllMessages() {
                 let loadedMessages = [];
-                axios.get('http://localhost:3001/messages')
+                axios.get('http://localhost:3001/user/messages')
                 .then(function (response) {
-                    response.data.forEach(msg => {
-                        let loadedMessage = new Message(msg.id, msg.message, msg.date)
-                        loadedMessages.push(loadedMessage);
+                    console.log(response)
+                    response.data.messages.forEach(msg => {
+                        console.log(msg)
+                        let userMessage = new User(msg.userId, msg.email, msg.firstname, msg.lastname, msg.username, msg.userDate)
+                        let message = new Message(msg.messageId, msg.message, msg.messageDate)
+                        message.setUser(userMessage)
+                        loadedMessages.push(message)
                     });
                 })
                 .catch(function (error) {

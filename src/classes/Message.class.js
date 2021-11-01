@@ -31,6 +31,14 @@ export default class Message {
         this.dateCreation = date
     }
 
+    getUser() {
+        return this.user
+    }
+
+    setUser(user) {
+        this.user = user
+    }
+
     /**
      * Formate la date de création dans un format lisible par l'humain
      */

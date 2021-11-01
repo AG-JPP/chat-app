@@ -1,7 +1,10 @@
+const { query, json } = require('express');
 const express = require('express');
+const { connect } = require('mssql');
 
 const app = express();
 const sql = require('mysql');
+const { RESERVED_EVENTS } = require('socket.io/dist/socket');
 
 app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -132,4 +135,54 @@ app.get('/messages', (req, res) => {
             res.status(404).json(result)
         }
     })
+})
+
+app.get('/user/:id?/messages', (req, res) => {
+    let result = {
+        
+    }
+    try {
+        const userId = req.params.id;
+        let users = []
+        let query = 'SELECT M.*, M.id AS messageId, M.creationDate AS messageDate, U.*, U.id AS userId, U.creationDate AS userDate from messages M JOIN r_users_message RUM ON M.id = RUM.message_id JOIN users U ON RUM.user_id = U.id '
+        if (!! userId) {
+            query += 'WHERE U.id = ?'
+        }
+        
+        connection.query(query, [userId], function (err, rows, fields) {
+            if (err) {
+                console.log(err)
+                res.status(500).send('Internal error')
+            } else if (rows.length > 0) {
+                console.log(rows)
+                rows.forEach(element => {
+                    users.push({
+                        messageId: element.messageId,
+                        message: element.message,
+                        messageDate: element.messageDate,
+                        userId: element.userId,
+                        email: element.email,
+                        firstname: element.firstname,
+                        lastname: element.lastname,
+                        username: element.username,
+                        userDate: element.userDate
+                    })
+                });
+                result.count = rows.length
+                result.messages = users
+                res.status(200).json(result)
+            } else {
+                result.message = 'No messages found'
+                res.status(404).send('No messages found')
+            }
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(500).send('Internal error')
+    }
+})
+
+app.get('/ping', (req, res) => {
+    console.log('pong')
+    res.send(200)
 })
