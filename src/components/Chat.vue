@@ -87,7 +87,8 @@
                 //this.messages = [...this.newMessage, data];
             }),
             this.socket.on('newMessage', (msg) => {
-                const newMessage = new Message(msg.id, msg.message, msg.dateCreation); 
+                const newMessage = new Message(msg.id, msg.message, msg.dateCreation);
+                newMessage.setUser(this.connectedUser)
                 this.messages.push(newMessage)           
             }),
             this.fetchAllMessages()
