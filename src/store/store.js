@@ -20,6 +20,7 @@ export default new Vuex.Store({
         },
         removeUser (state) {
             state.connectedUser = false
+            localStorage.removeItem('user')
         },
         checkConnectedUser (state) {
             if (localStorage.getItem('user')) {

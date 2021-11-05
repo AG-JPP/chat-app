@@ -43,7 +43,7 @@ export default class Message {
      * Formate la date de création dans un format lisible par l'humain
      */
     formateDate() {
-        const date = new Date(this.getDateCreation())
+        const date = new Date(this.getDateCreation() * 1000)
         return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
     }
 }

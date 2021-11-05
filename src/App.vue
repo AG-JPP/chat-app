@@ -5,7 +5,7 @@
         <div class="col-md-6 offset-md-3">
           <h1>Welcome to this web chat app</h1>
         </div>
-        <div class="col-md-6 offset-md-3">
+        <div v-if="this.$store.getters.getConnectedUser == false" class="col-md-6 offset-md-3">
           
             <router-link to="/login" class="me-3">
               <button type="button" class="btn btn-primary">
@@ -18,6 +18,12 @@
                 S'inscrire
               </button>
             </router-link>
+            
+        </div>
+        <div v-else class="col-md-6 offset-md-3">
+          <button @click="disconnect" type="button" class="btn btn-danger">
+              Deconnexion
+            </button>
         </div>
         <router-view></router-view>
       </div>
@@ -32,7 +38,13 @@ export default {
   name: 'App',
   components: {
     
-  }, 
+  },
+  methods: {
+    disconnect () {
+      this.$store.commit('removeUser')
+      this.$router.push('/')
+    }
+  },
   created() {
     this.$store.commit('checkConnectedUser')
   }
