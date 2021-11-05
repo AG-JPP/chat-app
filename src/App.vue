@@ -1,32 +1,42 @@
 <template>
   <div id="app">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 offset-md-3">
-          <h1>Welcome to this web chat app</h1>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Web chat</a>
+        <button 
+          class="navbar-toggler" 
+          type="button" 
+          data-bs-toggle="collapse" 
+          data-bs-target="#navbarText" 
+          aria-controls="navbarText" 
+          aria-expanded="false" 
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul v-if="this.$store.getters.getConnectedUser == false" class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <router-link to='/login'>
+                <a class="nav-link active" aria-current="page" href="#">Login</a>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to='/singin'>
+                <a class="nav-link" href="#">Sign In</a>
+              </router-link>
+            </li>
+          </ul>
+          <span @click="disconnect" v-else class="navbar-text">
+            Disconnect
+          </span>
         </div>
-        <div v-if="this.$store.getters.getConnectedUser == false" class="col-md-6 offset-md-3">
-          
-            <router-link to="/login" class="me-3">
-              <button type="button" class="btn btn-primary">
-                Se connecter
-              </button>
-            </router-link>
-          
-            <router-link to="/singin">
-              <button type="button" class="btn btn-primary">
-                S'inscrire
-              </button>
-            </router-link>
-            
-        </div>
-        <div v-else class="col-md-6 offset-md-3">
-          <button @click="disconnect" type="button" class="btn btn-danger">
-              Deconnexion
-            </button>
-        </div>
-        <router-view></router-view>
       </div>
+    </nav>
+
+    <div class="container">
+        <router-view></router-view>
     </div>
   </div>
 </template>
@@ -58,7 +68,6 @@ export default {
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	color: #2c3e50;
-	margin-top: 60px;
 	}
 	@import'~bootstrap/dist/css/bootstrap.css';
 </style>

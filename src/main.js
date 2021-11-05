@@ -6,13 +6,14 @@ import VueRouter from 'vue-router'
 import Login from './components/Login.vue'
 import SignIn from './components/SignIn.vue'
 import Chat from './components/Chat.vue'
+import Index from './components/Index.vue'
 
 import store from './store/store'
 
 import 'bootstrap'
 
 const routes = [
-  { name: 'index', path: '/'},
+  { name: 'index', path: '/', component: Index},
   { name: 'login', path: '/login', component: Login },
   { name: 'signin', path: '/singin', component: SignIn }, 
   { name: 'chat', path: '/chat', component: Chat, props: true }
