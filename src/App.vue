@@ -33,8 +33,8 @@ export default {
   components: {
     
   }, 
-  mounted() {
-    
+  created() {
+    this.$store.commit('checkConnectedUser')
   }
 }
 </script>

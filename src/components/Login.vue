@@ -47,14 +47,15 @@
                     data.email,
                     data.firstname,
                     data.lastname,
-                    data.username
+                    data.username,
+                    data.creationDate
                 )
-                console.log(data)
+                this.$store.commit({
+                    type: 'addUser',
+                    user: connectedUser
+                })
                 this.$router.push({
-                    name: 'chat',
-                    params: {
-                        user: connectedUser
-                    }
+                    name: 'chat'
                 })
             })
         }

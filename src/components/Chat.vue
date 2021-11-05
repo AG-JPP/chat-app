@@ -43,16 +43,23 @@
     import User from '../classes/User.class';
 
     export default {
-        props: ['user'],
         data() {
             return {
-                connectedUser: this.user,
+                connectedUser: false,
                 socket : io('localhost:3001'),
                 newMessage: '',
                 messages: []
             }
         },
         methods: {
+            getUserConnection() {
+                const savedConnection = this.$store.getters.getConnectedUser
+                if (savedConnection) {
+                    this.connectedUser = savedConnection
+                } else {
+                    this.$router.push('/')
+                }
+            },
             sendMessage(e) {
                 e.preventDefault();
 
@@ -66,9 +73,7 @@
                 let loadedMessages = [];
                 axios.get('http://localhost:3001/user/messages')
                 .then(function (response) {
-                    console.log(response)
                     response.data.messages.forEach(msg => {
-                        console.log(msg)
                         let userMessage = new User(msg.userId, msg.email, msg.firstname, msg.lastname, msg.username, msg.userDate)
                         let message = new Message(msg.messageId, msg.message, msg.messageDate)
                         message.setUser(userMessage)
@@ -94,10 +99,7 @@
             this.fetchAllMessages()
         },
         created() {
-            if (typeof this.connectedUser === 'undefined') {
-               this.$router.push('/') 
-            }
-            
+            this.getUserConnection()
         }
     }
 </script>

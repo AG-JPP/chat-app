@@ -54,4 +54,15 @@ export default class User {
     setCreationDate(date) {
         this.creationDate = date
     }
+
+    toJson() {
+        return {
+            id: this.getId(),
+            email: this.getEmail(),
+            firstname: this.getFirstname(),
+            lastname: this.getLastname(),
+            username: this.getUsername(),
+            creationDate: this.getCreationDate()
+        }
+    }
 }

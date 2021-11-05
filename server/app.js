@@ -79,7 +79,8 @@ io.on('connection', function(socket) {
                     id: rows[0].id,
                     email: rows[0].email,
                     lastname: rows[0].lastname,
-                    firstname: rows[0].firstname
+                    firstname: rows[0].firstname,
+                    creationDate: rows[0].creationDate
                 };
                 socket.emit('logged')
                 socket.emit('newusr', me);
