@@ -74,7 +74,7 @@
                 axios.get('http://localhost:3001/user/messages')
                 .then(function (response) {
                     response.data.messages.forEach(msg => {
-                        let userMessage = new User(msg.userId, msg.email, msg.firstname, msg.lastname, msg.username, msg.userDate)
+                        const userMessage = new User(msg.userId, msg.email, msg.firstname, msg.lastname, msg.username, msg.userDate)
                         let message = new Message(msg.messageId, msg.message, msg.messageDate)
                         message.setUser(userMessage)
                         loadedMessages.push(message)
@@ -92,8 +92,10 @@
                 //this.messages = [...this.newMessage, data];
             }),
             this.socket.on('newMessage', (msg) => {
-                const newMessage = new Message(msg.id, msg.message, msg.dateCreation);
-                newMessage.setUser(this.connectedUser)
+                let newMessage = new Message(msg.id, msg.message, msg.dateCreation);
+                const userMessage = new User(msg.user.id, msg.user.email, msg.user.firstname, msg.user.lastname, msg.user.username, msg.user.creationDate)
+                console.log(userMessage)
+                newMessage.setUser(userMessage)
                 this.messages.push(newMessage)           
             }),
             this.fetchAllMessages()

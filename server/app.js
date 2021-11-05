@@ -48,7 +48,7 @@ io.on('connection', function(socket) {
                 newMessage = {
                     id: messageId,
                     message: data.message,
-                    dateCreation: Date.now()
+                    dateCreation: Date.now() / 1000
                 }
                 socket.emit('Message insert')
                 connection.query('INSERT INTO r_users_message VALUES (?, ?)', [data.userId, messageId], function (err, rows, fields) {
@@ -56,11 +56,26 @@ io.on('connection', function(socket) {
                         console.log(err)
                         socket.emit('error', err.code)
                     } else {
-                        socket.emit('newMessage', newMessage)
+                        connection.query('SELECT * FROM users WHERE id=?', [data.userId], function(err, rows, fields) {
+                            if (err) {
+                                console.log(err)
+                                socket.emit('error', err.code)
+                            } else if (rows.length > 0) {
+                                const user = {
+                                    id: rows[0].id,
+                                    email: rows[0].email,
+                                    firstname: rows[0].firstname,
+                                    lastname: rows[0].lastname,
+                                    username: rows[0].username,
+                                    creationDate: rows[0].createConnection
+                                }
+                                newMessage.user = user;
+                                io.sockets.emit('newMessage', newMessage)
+                            }
+                        })
                     }
-                } )
+                })
             }
-            
         })
     });
 
